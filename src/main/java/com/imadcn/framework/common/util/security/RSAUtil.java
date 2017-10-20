@@ -198,9 +198,8 @@ public class RSAUtil {
 
 	/**
 	 * 公钥解密
-	 * 
-	 * @param data
-	 * @param key
+	 * @param encryptedData
+	 * @param publicKey
 	 * @return
 	 * @throws Exception
 	 */
@@ -248,9 +247,8 @@ public class RSAUtil {
 
 	/**
 	 * 私钥解密
-	 * 
-	 * @param data
-	 * @param key
+	 * @param encryptedData
+	 * @param privateKey
 	 * @return
 	 * @throws Exception
 	 */

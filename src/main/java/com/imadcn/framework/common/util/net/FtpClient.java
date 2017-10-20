@@ -40,16 +40,10 @@ public class FtpClient {
 
 	/**
 	 * 初始化
-	 * 
-	 * @param host
-	 *            IP
-	 * @param port
-	 *            端口
-	 * @param username
-	 *            用户名
-	 * @param password
-	 *            密码
-	 * @throws FtpException
+	 * @param host IP
+	 * @param port 端口
+	 * @param username 用户名
+	 * @param password 密码
 	 */
 	public FtpClient(String host, int port, String username, String password) {
 		init(host, port, username, password);
@@ -109,8 +103,6 @@ public class FtpClient {
 
 	/**
 	 * 关闭FTP客户端
-	 * 
-	 * @throws Exception
 	 */
 	public void close() {
 		synchronized (LOCK) {
@@ -128,12 +120,9 @@ public class FtpClient {
 	/**
 	 * 上传
 	 * 
-	 * @param remotePath
-	 *            上传目录
-	 * @param localPath
-	 *            本地目录
-	 * @return
-	 * @throws Exception
+	 * @param remotePath 上传目录
+	 * @param localPath 本地目录
+	 * @return 成功或者失败
 	 */
 	public boolean uploadFile(String remotePath, String localPath) {
 		synchronized (LOCK) {
@@ -156,7 +145,6 @@ public class FtpClient {
 	 * @param remotePath
 	 *            上传目录
 	 * @return
-	 * @throws Exception
 	 */
 	public boolean uploadFiles(File localeFile, String remotePath) {
 		synchronized (LOCK) {
@@ -202,12 +190,9 @@ public class FtpClient {
 	/**
 	 * 下载
 	 * 
-	 * @param remotePath
-	 *            下载目录
-	 * @param localPath
-	 *            本地目录
-	 * @return
-	 * @throws Exception
+	 * @param remotePath 下载目录
+	 * @param localPath 本地目录
+	 * @return 下载成功或者失败
 	 */
 	public boolean downLoadFile(String remotePath, String localPath) {
 		synchronized (LOCK) {

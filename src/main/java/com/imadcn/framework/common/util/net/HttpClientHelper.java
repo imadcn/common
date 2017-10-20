@@ -495,9 +495,9 @@ public final class HttpClientHelper {
 	/**
 	 * 
 	 * 格式化参数
-	 * @param {@link Map} paramMap 输入参数
-	 * @param {@link String} code url编码格式
-	 * @return {@link String}
+	 * @param paramMap 输入参数
+	 * @param code url编码格式
+	 * @return 格式化参数
 	 * @throws UnsupportedEncodingException
 	 */
 	public static String formatParamMap(Map<String, String> paramMap, String code) throws UnsupportedEncodingException {
@@ -517,11 +517,9 @@ public final class HttpClientHelper {
 	 * 
 	 * 获取参数对象
 	 * 
-	 * @param paramMap
-	 * @param code
-	 * @return
-	 * @throws KeyManagementException
-	 * @throws NoSuchAlgorithmException
+	 * @param paramMap paramMap
+	 * @param code code
+	 * @return UrlEncodedFormEntity
 	 * @throws UnsupportedEncodingException
 	 */
 	public static UrlEncodedFormEntity getHttpParamLength(Map<String, String> paramMap, String code) throws UnsupportedEncodingException {

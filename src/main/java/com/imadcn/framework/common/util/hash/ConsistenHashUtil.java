@@ -25,8 +25,6 @@ public class ConsistenHashUtil<T> {
 
 	/**
 	 * 构造，使用MD5作为默认hash算法
-	 * 
-	 * @param numberOfReplicas 复制的节点个数也叫虚拟节点数，增加每个节点的复制节点有利于负载均衡
 	 * @param nodes 节点对象
 	 */
 	public ConsistenHashUtil(Collection<T> nodes) {
@@ -40,8 +38,8 @@ public class ConsistenHashUtil<T> {
 	/**
 	 * 构造，使用MD5作为默认hash算法
 	 * 
-	 * @param numberOfReplicas 复制的节点个数也叫虚拟节点数，增加每个节点的复制节点有利于负载均衡
 	 * @param nodes 节点对象
+	 * @param nodeCopies 复制的节点个数也叫虚拟节点数，增加每个节点的复制节点有利于负载均衡
 	 */
 	public ConsistenHashUtil(Collection<T> nodes, int nodeCopies) {
 		this.circle = new TreeMap<Long, T>();

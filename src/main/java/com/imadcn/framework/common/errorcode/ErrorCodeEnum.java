@@ -12,7 +12,7 @@ public enum ErrorCodeEnum implements ErrorCode {
 		this.desc = desc;
 	}
 
-	public Integer getCode() {
+	public int getCode() {
 		return code;
 	}
 

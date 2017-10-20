@@ -40,8 +40,7 @@ public class ImgFontByte {
 
 	/**
 	 * ttf字体文件的十六进制字符串
-	 * 
-	 * @return
+	 * @return ttf字体文件的十六进制字符串
 	 */
 	private String getFontByteStr() {
 		return null;

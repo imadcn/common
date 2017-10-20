@@ -84,8 +84,6 @@ public class DateFormatUtil {
 	 * @param destPattern
 	 *            格式化成的时间通配符
 	 * @return 格式化成功返回成功后的字符串，失败返回<b>""</b>
-	 * @see DateFormatUtil.DATE_TIME
-	 * @see DateFormatUtil.DATE
 	 */
 	public static String format(String srcDate, String srcPattern, String destPattern) {
 		try {
@@ -100,8 +98,7 @@ public class DateFormatUtil {
 	/**
 	 * 按照给定的通配模式 YYYY-MM-DD HH:MM:SS ，将时间格式化成相应的字符串
 	 * 
-	 * @param srcDate
-	 *            待格式化的时间
+	 * @param srcDate 待格式化的时间
 	 * @return 格式化成功返回成功后的字符串，失败返回<b>null</b>
 	 */
 	public static String format(Date srcDate) {
@@ -115,10 +112,8 @@ public class DateFormatUtil {
 	/**
 	 * 按照给定的通配模式，将时间格式化成相应的字符串
 	 * 
-	 * @param srcDate
-	 *            待格式化的时间
-	 * @param destPattern
-	 *            格式化成的时间通配符
+	 * @param srcDate 待格式化的时间
+	 * @param destPattern 格式化成的时间通配符
 	 * @return 格式化成功返回成功后的字符串，失败返回<b>null</b>
 	 */
 	public static String format(Date srcDate, String destPattern) {
@@ -132,10 +127,7 @@ public class DateFormatUtil {
 	/**
 	 * 按照默认"yyyy-MM-dd"通配模式，将字符串转换成java.util.Date对象
 	 * 
-	 * @param srcDate
-	 *            原始时间字符串
-	 * @param srcPattern
-	 *            原始时间字符串通配符
+	 * @param srcDate 原始时间字符串
 	 * @return 转换成功返回java.util.Date对象，失败返回<b>null</b>
 	 * @see java.util.Date
 	 */
@@ -389,8 +381,6 @@ public class DateFormatUtil {
 
 	/**
 	 * 获取本月最后一天
-	 * 
-	 * @param day
 	 * @return
 	 */
 	public static Date getLastDayOfMonth() {
@@ -400,7 +390,7 @@ public class DateFormatUtil {
 	/**
 	 * 将日期转成制定格式
 	 * 
-	 * @param day
+	 * @param srcDate
 	 *            源日期
 	 * @param destPattern
 	 *            转换模式

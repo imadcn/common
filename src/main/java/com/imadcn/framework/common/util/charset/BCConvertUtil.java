@@ -40,7 +40,7 @@ public class BCConvertUtil {
 	static final char DBC_SPACE = ' ';
 
 	/**
-	 * 半角字符->全角字符转换 只处理空格，!到&tilde;之间的字符，忽略其他
+	 * 半角字符-全角字符转换 只处理空格，!到&tilde;之间的字符，忽略其他
 	 * 
 	 * @param src 要处理的字符串
 	 * @return 转成全角的字符串
@@ -66,7 +66,7 @@ public class BCConvertUtil {
 	}
 
 	/**
-	 * 全角字符->半角字符转换 只处理全角的空格，全角！到全角～之间的字符，忽略其他
+	 * 全角字符-半角字符转换 只处理全角的空格，全角！到全角～之间的字符，忽略其他
 	 * 
 	 * @param src 要处理的字符串
 	 * @return 转换成半角的字符串

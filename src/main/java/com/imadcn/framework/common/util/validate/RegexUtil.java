@@ -58,7 +58,7 @@ public class RegexUtil {
 	
 	/**
 	 * 判断是否为金额数字类型，区间[0,+oo)，除小于1的小数外，首位不能为0，请小数点最多保留两位
-	 * @param cellphone 手机号
+	 * @param moeny 金额字符串
 	 * @return 正确返回true，否则返回false
 	 */
 	public static boolean isMoney(String moeny) {
@@ -72,7 +72,7 @@ public class RegexUtil {
 	
 	/**
 	 * 判断IP地址是否正确
-	 * @param cellphone 手机号
+	 * @param ip ip
 	 * @return 正确返回true，否则返回false
 	 */
 	public static boolean isIpAddrress(String ip) {
@@ -100,7 +100,7 @@ public class RegexUtil {
 	}
 	
 	/**
-	 * 判断传入的日期是否>=今天
+	 * 判断传入的日期是否 &gt;=今天
 	 * @param date 待判断的日期
 	 * @return 是返回true，否则返回false
 	 */
@@ -109,7 +109,7 @@ public class RegexUtil {
 	}
 	
 	/**
-	 * 判断传入的日期是否>=今天
+	 * 判断传入的日期是否&gt;=今天
 	 * @param date 待判断的日期
 	 * @return 是返回true，否则返回false
 	 */
@@ -223,7 +223,7 @@ public class RegexUtil {
 
 	/**
 	 * 验证是否为int
-	 * @param value 待判断的字符串
+	 * @param values 待判断的字符串
 	 * @return 是返回true，否则返回false
 	 */
 	public static boolean isPositiveInteger(String... values) {
@@ -240,7 +240,7 @@ public class RegexUtil {
 	
 	/**
 	 * 判断是否为非负数
-	 * @param value
+	 * @param values
 	 * @return
 	 */
 	public static boolean isNotNegativeInteger(String... values) {
@@ -342,7 +342,7 @@ public class RegexUtil {
 	
 	/**
 	 * 验证是否为double
-	 * @param value 待判断的字符串
+	 * @param values 待判断的字符串
 	 * @return 是返回true，否则返回false
 	 */
 	public static boolean isPositiveDouble(double... values) {
@@ -359,7 +359,7 @@ public class RegexUtil {
 	
 	/**
 	 * 验证是否为double
-	 * @param value 待判断的字符串
+	 * @param values 待判断的字符串
 	 * @return 是返回true，否则返回false
 	 */
 	public static boolean isPositiveDouble(String... values) {
@@ -418,7 +418,7 @@ public class RegexUtil {
 	 * @param go 日期1
 	 * @param back 日期2
 	 * @param pattern 日期正则表达式
-	 * @return go<=back返回true，否则返回false
+	 * @return go&lt;=back返回true，否则返回false
 	 */
 	public static boolean isBefore(String go, String back, String pattern) {
 		if (go == null || back == null || go.isEmpty() || back.isEmpty())
@@ -436,7 +436,7 @@ public class RegexUtil {
 	 * 校验前面的日期go，是否早于或者等于后面的日期back
 	 * @param go 日期1
 	 * @param back 日期2
-	 * @return go<=back返回true，否则返回false
+	 * @return go&lt;=back返回true，否则返回false
 	 */
 	public static boolean isBefore(String go, String back) {
 		return isBefore(go, back, DateFormatUtil.DATE);
@@ -452,7 +452,7 @@ public class RegexUtil {
 	}
 	
 	/**
-	 * 根据出发日期，判断身份证是否是成人 >=12周岁
+	 * 根据出发日期，判断身份证是否是成人 &gt;=12周岁
 	 * @param ni 身份证号码
 	 * @param dptDate 出发日期，默认格式 yyyy-MM-dd
 	 * @return 成功返回true，失败返回false
@@ -462,7 +462,7 @@ public class RegexUtil {
 	}
 	
 	/**
-	 * 根据出发日期，判断身份证是否是成人 >=12周岁
+	 * 根据出发日期，判断身份证是否是成人 &gt;=12周岁
 	 * @param ni 身份证号码
 	 * @param dptDate 出发日期
 	 * @param pattern 日期格式
@@ -485,7 +485,7 @@ public class RegexUtil {
 	}
 	
 	/**
-	 * 根据出发日期，判断身份证是否是儿童 >=2 <12周岁
+	 * 根据出发日期，判断身份证是否是儿童 &gt;=2 &lt;12周岁
 	 * @param ni 身份证号码
 	 * @param dptDate 出发日期，默认格式 yyyy-MM-dd
 	 * @return 成功返回true，失败返回false
@@ -495,7 +495,7 @@ public class RegexUtil {
 	}
 	
 	/**
-	 * 根据出发日期，判断身份证是否是儿童 >=2 <12周岁
+	 * 根据出发日期，判断身份证是否是儿童 &gt;=2 &lt;12周岁
 	 * @param ni 身份证号码
 	 * @param dptDate 出发日期，默认格式 yyyy-MM-dd
 	 * @param pattern 日期格式
@@ -518,7 +518,7 @@ public class RegexUtil {
 	}
 	
 	/**
-	 * 判断生日是否是成人 >=12周岁
+	 * 判断生日是否是成人 &gt;=12周岁
 	 * @param birthday 出生日期，默认格式yyyy-MM-dd
 	 * @param dptDate 出发日期
 	 * @return 成功返回true，失败返回false
@@ -528,7 +528,7 @@ public class RegexUtil {
 	}
 	
 	/**
-	 * 判断生日是否是成人 >=12周岁
+	 * 判断生日是否是成人 &gt;=12周岁
 	 * @param birthday 出生日期
 	 * @param dptDate 出发日期
 	 * @param pattern 出生日期格式
@@ -548,7 +548,7 @@ public class RegexUtil {
 	}
 	
 	/**
-	 * 判断生日是否为儿童 >=2周岁  <12周岁
+	 * 判断生日是否为儿童 &gt;=2周岁 &lt;12周岁
 	 * @param birthday 出生日期，默认格式yyyy-MM-dd
 	 * @param dptDate 出发日期
 	 * @return 成功返回true，失败返回false
@@ -558,7 +558,7 @@ public class RegexUtil {
 	}
 	
 	/**
-	 * 判断生日是否为儿童 >=2周岁  <12周岁
+	 * 判断生日是否为儿童 &gt;=2周岁  &lt;12周岁
 	 * @param birthday 出生日期
 	 * @param dptDate 出发日期
 	 * @param pattern 出生日期格式

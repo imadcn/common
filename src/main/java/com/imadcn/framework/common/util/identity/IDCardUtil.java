@@ -182,7 +182,7 @@ public class IDCardUtil {
 
 	/**
 	 * 功能：判断字符串是否为日期格式
-	 * @param str
+	 * @param strDate date String
 	 * @return
 	 */
 	public static boolean isDate(String strDate) {

@@ -7,7 +7,7 @@ package com.imadcn.framework.common.errorcode;
  */
 public interface ErrorCode {
 	
-	public Integer getCode();
+	public int getCode();
 
 	public String getDesc();
 

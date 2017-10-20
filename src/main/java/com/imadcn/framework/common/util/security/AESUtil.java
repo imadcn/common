@@ -85,7 +85,7 @@ public class AESUtil {
 	/**
 	 * 解密
 	 * 
-	 * @param data 待解密的数据
+	 * @param dataBytes 待解密的数据
 	 * @param key 解密密钥(长度必须为16)
 	 * @return
 	 */

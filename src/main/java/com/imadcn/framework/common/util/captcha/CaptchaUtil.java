@@ -28,16 +28,16 @@ public class CaptchaUtil {
 	private static int lineCount = 150;
 
 	/**
-	 * 
-	 * @return
+	 * getCaptchaNum
+	 * @return captchaNum
 	 */
 	public static int getCaptchaNum() {
 		return getCaptchaNum(6);
 	}
 
 	/**
-	 * 
-	 * @return
+	 * getCaptchaNum
+	 * @return getCaptchaNum
 	 */
 	public static int getCaptchaNum(int size) {
 		int[] array = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
@@ -60,33 +60,43 @@ public class CaptchaUtil {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * getCaptcha
+	 * @return captcha
 	 */
 	public static String getCaptcha() {
 		return createCaptcha(width, height, codeCount, lineCount);
 	}
 
 	/**
-	 * 
+	 * getCaptcha
 	 * @param width 图片宽
 	 * @param height 图片高
+	 * @return Captcha
 	 */
 	public static String getCaptcha(int width, int height) {
 		return createCaptcha(width, height, codeCount, lineCount);
 	}
 
 	/**
-	 * 
+	 * getCaptcha
 	 * @param width 图片宽
 	 * @param height 图片高
 	 * @param codeCount 字符个数
 	 * @param lineCount 干扰线条数
+	 * @return Captcha
 	 */
 	public static String getCaptcha(int width, int height, int codeCount, int lineCount) {
 		return createCaptcha(width, height, codeCount, lineCount);
 	}
 
+	/**
+	 * 生成captcha
+	 * @param width 图片宽
+	 * @param height 图片高
+	 * @param codeCount 字符个数
+	 * @param lineCount 干扰线条数
+	 * @return captcha
+	 */
 	public static String createCaptcha(int width, int height, int codeCount, int lineCount) {
 		int x = 0;
 		int fontHeight = 0;
