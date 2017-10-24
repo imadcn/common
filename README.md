@@ -15,6 +15,6 @@ common 是一个常用Java开发工具包
 <dependency>
   <groupId>com.imadcn.framework</groupId>
   <artifactId>common</artifactId>
-  <version>1.0.0</version>
+  <version>${latest.maven.version}</version>
 </dependency>
 ```
