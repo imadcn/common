@@ -12,6 +12,10 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -49,6 +53,11 @@ public final class HttpClientHelper {
 	 * utf-8 字符编码
 	 */
 	private static final String UTF_8 = "UTF-8";
+	
+	/**
+	 * AsyncThreadPool
+	 */
+	private static ExecutorService executorService = Executors.newCachedThreadPool();
 
 	/**
 	 * 获取HttpClient对象
@@ -157,7 +166,7 @@ public final class HttpClientHelper {
 	public static String sendPostRequest(String uri, Map<String, String> paramMap) throws KeyManagementException, NoSuchAlgorithmException, UnsupportedEncodingException {
 		return sendPostRequest(uri, paramMap, null, UTF_8);
 	}
-
+	
 	/**
 	 * 
 	 * @param uri {@link String} 请求地址
@@ -494,9 +503,9 @@ public final class HttpClientHelper {
 	/**
 	 * 
 	 * 格式化参数
-	 * @param paramMap 输入参数
-	 * @param code url编码格式
-	 * @return 格式化参数
+	 * @param {@link Map} paramMap 输入参数
+	 * @param {@link String} code url编码格式
+	 * @return {@link String}
 	 * @throws UnsupportedEncodingException
 	 */
 	public static String formatParamMap(Map<String, String> paramMap, String code) throws UnsupportedEncodingException {
@@ -516,9 +525,11 @@ public final class HttpClientHelper {
 	 * 
 	 * 获取参数对象
 	 * 
-	 * @param paramMap paramMap
-	 * @param code code
-	 * @return UrlEncodedFormEntity
+	 * @param paramMap
+	 * @param code
+	 * @return
+	 * @throws KeyManagementException
+	 * @throws NoSuchAlgorithmException
 	 * @throws UnsupportedEncodingException
 	 */
 	public static UrlEncodedFormEntity getHttpParamLength(Map<String, String> paramMap, String code) throws UnsupportedEncodingException {
@@ -536,5 +547,94 @@ public final class HttpClientHelper {
 		}
 		return uef;
 	}
+	
+	/**
+	 * 异步发送POST请求
+	 * 
+	 * @param uri {@link String} 请求地址
+	 * @return 
+	 */
+	public static Future<String> asyncSendPostRequest(String uri) throws KeyManagementException, NoSuchAlgorithmException, UnsupportedEncodingException {
+		return asyncSendPostRequest(uri, null, null, UTF_8);
+	}
 
+	/**
+	 * 异步发送POST请求
+	 * 
+	 * @param uri {@link String} 请求地址
+	 * @param paramMap {@link Map} 请求参数
+	 * @return 
+	 */
+	public static Future<String> asyncSendPostRequest(String uri, Map<String, String> paramMap) {
+		return asyncSendPostRequest(uri, paramMap, null, UTF_8);
+	}
+	
+	/**
+	 * 异步发送POST请求
+	 * 
+	 * @param uri {@link String} 请求地址
+	 * @param paramMap {@link Map} 请求参数
+	 * @param headerMap {@link Map} 请求头
+	 * @return 
+	 */
+	public static Future<String> asyncSendPostRequest(String uri, Map<String, String> paramMap, Map<String, String> headerMap) {
+		return asyncSendPostRequest(uri, paramMap, headerMap, UTF_8);
+	}
+
+	/**
+	 * 异步发送POST请求
+	 * 
+	 * @param uri {@link String} 请求地址
+	 * @param paramMap {@link Map} 请求参数
+	 * @param headerMap {@link Map} 请求头
+	 * @param code {@link String} 请求参数编码
+	 * @return
+	 */
+	public static Future<String> asyncSendPostRequest(String uri, Map<String, String> paramMap, Map<String, String> headerMap, String code) {
+		Callable<String> callable = new Callable<String>() {
+			@Override
+			public String call() throws Exception {
+				return sendPostRequest(uri, paramMap, headerMap, code);
+			}
+		};
+		return executorService.submit(callable);
+	}
+	
+	/**
+	 * 异步发送GET请求
+	 * 
+	 * @param uri {@link String} 请求地址
+	 * @return {@link String}
+	 */
+	public static Future<String> asyncSendGetRequest(String uri) {
+		return asyncSendGetRequest(uri, null, null);
+	}
+	
+	/**
+	 * 异步发送GET请求
+	 * 
+	 * @param uri {@link String} 请求地址
+	 * @param paramMap {@link Map} 请求参数
+	 * @return 
+	 */
+	public static Future<String> asyncSendGetRequest(String uri, Map<String, String> paramMap) {
+		return asyncSendGetRequest(uri, paramMap, null);
+	}
+
+	/**
+	 * 异步发送Get请求
+	 * @param uri {@link String} 请求地址
+	 * @param paramMap {@link Map} 请求参数
+	 * @param headerMap {@link String} 请求头
+	 * @return 
+	 */
+	public static Future<String> asyncSendGetRequest(String uri, Map<String, String> paramMap, Map<String, String> headerMap) {
+		Callable<String> callable = new Callable<String>() {
+			@Override
+			public String call() throws Exception {
+				return sendGetRequest(uri, paramMap, headerMap);
+			}
+		};
+		return executorService.submit(callable);
+	}
 }
