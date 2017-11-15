@@ -13,8 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
-import java.util.concurrent.FutureTask;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -52,6 +55,8 @@ public final class HttpClientHelper {
 	 * utf-8 字符编码
 	 */
 	private static final String UTF_8 = "UTF-8";
+
+	private static ExecutorService executorService = new ThreadPoolExecutor(5, 200, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(1024));
 
 	/**
 	 * 获取HttpClient对象
@@ -624,13 +629,13 @@ public final class HttpClientHelper {
 	 * @return
 	 */
 	public static Future<String> asyncSendPostRequest(String uri, Map<String, String> paramMap, Map<String, String> headerMap, String code) {
-		FutureTask<String> futureTask = new FutureTask<>(new Callable<String>() {
+		Callable<String> callable = new Callable<String>() {
 			@Override
 			public String call() throws Exception {
 				return sendPostRequest(uri, paramMap, headerMap, code);
 			}
-		});
-		return futureTask;
+		};
+		return executorService.submit(callable);
 	}
 
 	/**
@@ -669,12 +674,12 @@ public final class HttpClientHelper {
 	 * @return
 	 */
 	public static Future<String> asyncSendGetRequest(String uri, Map<String, String> paramMap, Map<String, String> headerMap) {
-		FutureTask<String> futureTask = new FutureTask<>(new Callable<String>() {
+		Callable<String> callable = new Callable<String>() {
 			@Override
 			public String call() throws Exception {
 				return sendGetRequest(uri, paramMap, headerMap);
 			}
-		});
-		return futureTask;
+		};
+		return executorService.submit(callable);
 	}
 }
