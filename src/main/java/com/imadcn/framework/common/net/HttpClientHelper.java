@@ -13,14 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -33,6 +31,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Http 客户端请求助手
+ * 
  * @author yc
  * @since 2017年1月10日
  */
@@ -53,17 +52,11 @@ public final class HttpClientHelper {
 	 * utf-8 字符编码
 	 */
 	private static final String UTF_8 = "UTF-8";
-	
-	/**
-	 * AsyncThreadPool
-	 */
-	private static ExecutorService executorService = Executors.newCachedThreadPool();
 
 	/**
 	 * 获取HttpClient对象
-	 * @return {@link HttpClient}
-	 * @throws KeyManagementException
-	 * @throws NoSuchAlgorithmException
+	 * 
+	 * @return CloseableHttpClient
 	 */
 	protected static CloseableHttpClient getHttpClient() throws KeyManagementException, NoSuchAlgorithmException {
 		CloseableHttpClient httpclient = HttpClients.createDefault();
@@ -73,8 +66,8 @@ public final class HttpClientHelper {
 	/**
 	 * 得到post方式的Http请求对象
 	 * 
-	 * @param uri {@link String} 请求地址
-	 * @return {@link HttpPost}
+	 * @param uri 请求地址
+	 * @return
 	 */
 	protected static HttpPost getHttpPost(String uri) {
 		// 创建post请求
@@ -84,10 +77,10 @@ public final class HttpClientHelper {
 	/**
 	 * 得到get方式的Http请求对象
 	 * 
-	 * @param uri {@link String} 请求地址
-	 * @param paramMap {@link Map} 请求参数
-	 * @return {@link HttpGet}
-	 * @throws UnsupportedEncodingException 
+	 * @param uri 请求地址
+	 * @param paramMap 请求参数
+	 * @return 
+	 * @throws UnsupportedEncodingException
 	 */
 	protected static HttpGet getHttpGet(String uri, Map<String, String> paramMap) throws UnsupportedEncodingException {
 		StringBuilder str = new StringBuilder();
@@ -105,8 +98,8 @@ public final class HttpClientHelper {
 	/**
 	 * 设置请求报头
 	 * 
-	 * @param httpGet {@link HttpGet} get请求Http
-	 * @return {@link HttpGet}
+	 * @param httpGet get请求Http
+	 * @return 
 	 */
 	protected static HttpGet setHeader(HttpGet httpGet, Map<String, String> headerMap) {
 		if (headerMap != null) {
@@ -122,9 +115,9 @@ public final class HttpClientHelper {
 	/**
 	 * 设置请求报头
 	 * 
-	 * @param httpPost
-	 *            {@link HttpPost} post请求Http
-	 * @return {@link HttpPost}
+	 * @param httpPost post请求
+	 * @param headerMap 头信息Map
+	 * @return
 	 */
 	protected static HttpPost setHeader(HttpPost httpPost, Map<String, String> headerMap) {
 		if (headerMap != null) {
@@ -141,8 +134,9 @@ public final class HttpClientHelper {
 	 * 
 	 * 发送POST请求
 	 * 
-	 * @param uri {@link String} 请求地址
-	 * @return {@link String}
+	 * @param uri
+	 *            请求地址
+	 * @return
 	 * @throws KeyManagementException
 	 * @throws NoSuchAlgorithmException
 	 * @throws UnsupportedEncodingException
@@ -155,10 +149,10 @@ public final class HttpClientHelper {
 	 * 发送POST请求
 	 * 
 	 * @param uri
-	 *            {@link String} 请求地址
+	 *            请求地址
 	 * @param paramMap
-	 *            {@link Map} 请求参数
-	 * @return {@link String}
+	 *            请求参数
+	 * @return
 	 * @throws KeyManagementException
 	 * @throws NoSuchAlgorithmException
 	 * @throws UnsupportedEncodingException
@@ -166,13 +160,16 @@ public final class HttpClientHelper {
 	public static String sendPostRequest(String uri, Map<String, String> paramMap) throws KeyManagementException, NoSuchAlgorithmException, UnsupportedEncodingException {
 		return sendPostRequest(uri, paramMap, null, UTF_8);
 	}
-	
+
 	/**
 	 * 
-	 * @param uri {@link String} 请求地址
-	 * @param paramMap {@link Map} 请求参数
-	 * @param headerMap {@link Map} 请求头
-	 * @return {@link String}
+	 * @param uri
+	 *            请求地址
+	 * @param paramMap
+	 *            请求参数
+	 * @param headerMap
+	 *            请求头
+	 * @return
 	 * @throws KeyManagementException
 	 * @throws NoSuchAlgorithmException
 	 * @throws UnsupportedEncodingException
@@ -184,17 +181,20 @@ public final class HttpClientHelper {
 	/**
 	 * 发送POST请求
 	 * 
-	 * @param uri {@link String} 请求地址
-	 * @param paramMap {@link Map} 请求参数
-	 * @param headerMap {@link Map} 请求头
-	 * @param code {@link String} 请求参数编码
-	 * @return {@link String}
+	 * @param uri
+	 *            请求地址
+	 * @param paramMap
+	 *            请求参数
+	 * @param headerMap
+	 *            请求头
+	 * @param code
+	 *            请求参数编码
+	 * @return
 	 * @throws KeyManagementException
 	 * @throws NoSuchAlgorithmException
 	 * @throws UnsupportedEncodingException
 	 */
-	public static String sendPostRequest(String uri, Map<String, String> paramMap, Map<String, String> headerMap, String code) throws KeyManagementException, NoSuchAlgorithmException,
-			UnsupportedEncodingException {
+	public static String sendPostRequest(String uri, Map<String, String> paramMap, Map<String, String> headerMap, String code) throws KeyManagementException, NoSuchAlgorithmException, UnsupportedEncodingException {
 		LOGGER.debug("execute sendPostRequest begin");
 		long startTime = System.currentTimeMillis();
 		// 创建客户端
@@ -236,17 +236,21 @@ public final class HttpClientHelper {
 	/**
 	 * 
 	 * 发送POST请求
-	 * @param uri {@link String} 请求地址
-	 * @param entity {@link UrlEncodedFormEntity} 请求实体
-	 * @param headerMap  {@link Map} 请求头
-	 * @param code {@link String} 请求参数编码
+	 * 
+	 * @param uri
+	 *            请求地址
+	 * @param entity
+	 *            {@link UrlEncodedFormEntity} 请求实体
+	 * @param headerMap
+	 *            请求头
+	 * @param code
+	 *            请求参数编码
 	 * @return
 	 * @throws KeyManagementException
 	 * @throws NoSuchAlgorithmException
 	 * @throws UnsupportedEncodingException
 	 */
-	public static String sendPostRequest(String uri, UrlEncodedFormEntity entity, Map<String, String> headerMap, String code) throws KeyManagementException, NoSuchAlgorithmException,
-			UnsupportedEncodingException {
+	public static String sendPostRequest(String uri, UrlEncodedFormEntity entity, Map<String, String> headerMap, String code) throws KeyManagementException, NoSuchAlgorithmException, UnsupportedEncodingException {
 		LOGGER.debug("execute sendPostRequest begin");
 		long startTime = System.currentTimeMillis();
 		// 创建客户端
@@ -277,25 +281,28 @@ public final class HttpClientHelper {
 	/**
 	 * 发送GET请求
 	 * 
-	 * @param uri {@link String} 请求地址
-	 * @return {@link String}
+	 * @param uri
+	 *            请求地址
+	 * @return
 	 * @throws KeyManagementException
 	 * @throws NoSuchAlgorithmException
-	 * @throws UnsupportedEncodingException 
+	 * @throws UnsupportedEncodingException
 	 */
 	public static String sendGetRequest(String uri) throws KeyManagementException, NoSuchAlgorithmException, UnsupportedEncodingException {
 		return sendGetRequest(uri, null, null);
 	}
-	
+
 	/**
 	 * 发送GET请求
 	 * 
-	 * @param uri {@link String} 请求地址
-	 * @param paramMap {@link Map} 请求参数
-	 * @return {@link String}
+	 * @param uri
+	 *            请求地址
+	 * @param paramMap
+	 *            请求参数
+	 * @return
 	 * @throws KeyManagementException
 	 * @throws NoSuchAlgorithmException
-	 * @throws UnsupportedEncodingException 
+	 * @throws UnsupportedEncodingException
 	 */
 	public static String sendGetRequest(String uri, Map<String, String> paramMap) throws KeyManagementException, NoSuchAlgorithmException, UnsupportedEncodingException {
 		return sendGetRequest(uri, paramMap, null);
@@ -303,20 +310,24 @@ public final class HttpClientHelper {
 
 	/**
 	 * 发送Get请求
-	 * @param uri {@link String} 请求地址
-	 * @param paramMap {@link Map} 请求参数
-	 * @param headerMap {@link String} 请求头
+	 * 
+	 * @param uri
+	 *            请求地址
+	 * @param paramMap
+	 *            请求参数
+	 * @param headerMap
+	 *            请求头
 	 * @return
 	 * @throws KeyManagementException
 	 * @throws NoSuchAlgorithmException
-	 * @throws UnsupportedEncodingException 
+	 * @throws UnsupportedEncodingException
 	 */
 	public static String sendGetRequest(String uri, Map<String, String> paramMap, Map<String, String> headerMap) throws KeyManagementException, NoSuchAlgorithmException, UnsupportedEncodingException {
 		LOGGER.debug("execute sendGetRequest begin");
 		long startTime = System.currentTimeMillis();
 		// 创建客户端
 		CloseableHttpClient httpclient = getHttpClient();
-		HttpGet get = getHttpGet(uri,  paramMap);
+		HttpGet get = getHttpGet(uri, paramMap);
 		LOGGER.info("sendGetRequest url = " + get.getURI());
 		setHeader(get, headerMap);
 		String responseBody = null;
@@ -342,11 +353,11 @@ public final class HttpClientHelper {
 	 * 发送GET请求
 	 * 
 	 * @param uri
-	 *            {@link String} 请求地址
+	 *            请求地址
 	 * @return {@link Byte} byte[]
 	 * @throws KeyManagementException
 	 * @throws NoSuchAlgorithmException
-	 * @throws UnsupportedEncodingException 
+	 * @throws UnsupportedEncodingException
 	 */
 	public static byte[] sendGetRequestStream(String uri) throws KeyManagementException, NoSuchAlgorithmException, UnsupportedEncodingException {
 		LOGGER.debug("execute sendGetRequestStream begin");
@@ -384,17 +395,19 @@ public final class HttpClientHelper {
 		LOGGER.debug("execute sendGetRequestStream end");
 		return imgdata;
 	}
-	
+
 	/**
 	 * 发送xml字符串请求
 	 * 
-	 * @param uri 请求地址
-	 * @param xmlStr xml字符串
+	 * @param uri
+	 *            请求地址
+	 * @param xmlStr
+	 *            xml字符串
 	 * @return
 	 * @throws KeyManagementException
 	 * @throws NoSuchAlgorithmException
 	 */
-	public static String sendPostXmlRequest(String uri, String xmlStr) throws KeyManagementException, NoSuchAlgorithmException{
+	public static String sendPostXmlRequest(String uri, String xmlStr) throws KeyManagementException, NoSuchAlgorithmException {
 		LOGGER.debug("execute sendGetRequest begin");
 		long startTime = System.currentTimeMillis();
 		// 创建客户端
@@ -428,16 +441,19 @@ public final class HttpClientHelper {
 		LOGGER.debug("execute sendGetRequest end");
 		return retStr;
 	}
-	
+
 	/**
 	 * 发送Json字符串请求
-	 * @param uri 请求地址
-	 * @param jsonStr JSON字符串
+	 * 
+	 * @param uri
+	 *            请求地址
+	 * @param jsonStr
+	 *            JSON字符串
 	 * @return
 	 * @throws KeyManagementException
 	 * @throws NoSuchAlgorithmException
 	 */
-	public static String sendPostJsonRequest(String uri, String jsonStr) throws KeyManagementException, NoSuchAlgorithmException{
+	public static String sendPostJsonRequest(String uri, String jsonStr) throws KeyManagementException, NoSuchAlgorithmException {
 		LOGGER.debug("execute sendGetRequest begin");
 		long startTime = System.currentTimeMillis();
 		// 创建客户端
@@ -475,16 +491,18 @@ public final class HttpClientHelper {
 	/**
 	 * 处理返回文件流
 	 * 
-	 * @param inputStream {@link InputStream} 输入流
-	 * @return {@link String}
+	 * @param inputStream
+	 *            {@link InputStream} 输入流
+	 * @return
 	 * @throws IOException
 	 */
 	private static String readInputStream(InputStream inputStream) throws IOException {
 		BufferedReader in = new BufferedReader(new InputStreamReader(inputStream, UTF_8));
 		StringBuffer buffer = new StringBuffer();
 		String line;
-		while ((line = in.readLine()) != null)
+		while ((line = in.readLine()) != null) {
 			buffer.append(line + "\n");
+		}
 		inputStream.close();
 		return buffer.toString();
 	}
@@ -493,19 +511,23 @@ public final class HttpClientHelper {
 	 * 
 	 * 格式化参数
 	 * 
-	 * @param paramMap  {@link Map} 输入参数
-	 * @return {@link String}
+	 * @param paramMap
+	 *            输入参数
+	 * @return
 	 */
 	public static String formatParamMap(Map<String, String> paramMap) throws UnsupportedEncodingException {
 		return formatParamMap(paramMap, UTF_8);
 	}
-	
+
 	/**
 	 * 
 	 * 格式化参数
-	 * @param {@link Map} paramMap 输入参数
-	 * @param {@link String} code url编码格式
-	 * @return {@link String}
+	 * 
+	 * @param paramMap
+	 *            输入参数
+	 * @param code
+	 *            url编码格式
+	 * @return
 	 * @throws UnsupportedEncodingException
 	 */
 	public static String formatParamMap(Map<String, String> paramMap, String code) throws UnsupportedEncodingException {
@@ -516,7 +538,8 @@ public final class HttpClientHelper {
 				String value = URLEncoder.encode(entry.getValue().toString(), code);
 				builder.append(key).append("=").append(value).append("&");
 			}
-			builder.deleteCharAt(builder.length()-1); // 去掉最后一个&
+			// 去掉最后一个&
+			builder.deleteCharAt(builder.length() - 1);
 		}
 		return builder.toString();
 	}
@@ -547,94 +570,111 @@ public final class HttpClientHelper {
 		}
 		return uef;
 	}
-	
+
 	/**
-	 * 异步发送POST请求
+	 * 异步发送发送POST请求
 	 * 
-	 * @param uri {@link String} 请求地址
-	 * @return 
+	 * @param uri
+	 *            请求地址
+	 * @return
 	 */
 	public static Future<String> asyncSendPostRequest(String uri) throws KeyManagementException, NoSuchAlgorithmException, UnsupportedEncodingException {
 		return asyncSendPostRequest(uri, null, null, UTF_8);
 	}
 
 	/**
-	 * 异步发送POST请求
+	 * 异步发送发送POST请求
 	 * 
-	 * @param uri {@link String} 请求地址
-	 * @param paramMap {@link Map} 请求参数
-	 * @return 
+	 * @param uri
+	 *            请求地址
+	 * @param paramMap
+	 *            请求参数
+	 * @return
 	 */
 	public static Future<String> asyncSendPostRequest(String uri, Map<String, String> paramMap) {
 		return asyncSendPostRequest(uri, paramMap, null, UTF_8);
 	}
-	
+
 	/**
-	 * 异步发送POST请求
+	 * 异步发送发送POST请求
 	 * 
-	 * @param uri {@link String} 请求地址
-	 * @param paramMap {@link Map} 请求参数
-	 * @param headerMap {@link Map} 请求头
-	 * @return 
+	 * @param uri
+	 *            请求地址
+	 * @param paramMap
+	 *            请求参数
+	 * @param headerMap
+	 *            请求头
+	 * @return
 	 */
 	public static Future<String> asyncSendPostRequest(String uri, Map<String, String> paramMap, Map<String, String> headerMap) {
 		return asyncSendPostRequest(uri, paramMap, headerMap, UTF_8);
 	}
 
 	/**
-	 * 异步发送POST请求
+	 * 异步发送发送POST请求
 	 * 
-	 * @param uri {@link String} 请求地址
-	 * @param paramMap {@link Map} 请求参数
-	 * @param headerMap {@link Map} 请求头
-	 * @param code {@link String} 请求参数编码
+	 * @param uri
+	 *            请求地址
+	 * @param paramMap
+	 *            请求参数
+	 * @param headerMap
+	 *            请求头
+	 * @param code
+	 *            请求参数编码
 	 * @return
 	 */
 	public static Future<String> asyncSendPostRequest(String uri, Map<String, String> paramMap, Map<String, String> headerMap, String code) {
-		Callable<String> callable = new Callable<String>() {
+		FutureTask<String> futureTask = new FutureTask<>(new Callable<String>() {
 			@Override
 			public String call() throws Exception {
 				return sendPostRequest(uri, paramMap, headerMap, code);
 			}
-		};
-		return executorService.submit(callable);
+		});
+		return futureTask;
 	}
-	
+
 	/**
-	 * 异步发送GET请求
+	 * 发送GET请求
 	 * 
-	 * @param uri {@link String} 请求地址
-	 * @return {@link String}
+	 * @param uri
+	 *            请求地址
+	 * @return
 	 */
 	public static Future<String> asyncSendGetRequest(String uri) {
 		return asyncSendGetRequest(uri, null, null);
 	}
-	
+
 	/**
-	 * 异步发送GET请求
+	 * 发送GET请求
 	 * 
-	 * @param uri {@link String} 请求地址
-	 * @param paramMap {@link Map} 请求参数
-	 * @return 
+	 * @param uri
+	 *            请求地址
+	 * @param paramMap
+	 *            请求参数
+	 * @return
 	 */
 	public static Future<String> asyncSendGetRequest(String uri, Map<String, String> paramMap) {
 		return asyncSendGetRequest(uri, paramMap, null);
 	}
 
 	/**
-	 * 异步发送Get请求
-	 * @param uri {@link String} 请求地址
-	 * @param paramMap {@link Map} 请求参数
-	 * @param headerMap {@link String} 请求头
-	 * @return 
+	 * 发送Get请求
+	 * 
+	 * @param uri
+	 *            请求地址
+	 * @param paramMap
+	 *            请求参数
+	 * @param headerMap
+	 *            请求头
+	 * @return
 	 */
 	public static Future<String> asyncSendGetRequest(String uri, Map<String, String> paramMap, Map<String, String> headerMap) {
-		Callable<String> callable = new Callable<String>() {
+		FutureTask<String> futureTask = new FutureTask<>(new Callable<String>() {
 			@Override
 			public String call() throws Exception {
 				return sendGetRequest(uri, paramMap, headerMap);
 			}
-		};
-		return executorService.submit(callable);
+		});
+		return futureTask;
 	}
 }
