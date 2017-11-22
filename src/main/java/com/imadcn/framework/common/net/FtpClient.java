@@ -18,9 +18,6 @@ import org.apache.commons.net.ftp.FTPReply;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.imadcn.framework.common.errorcode.ErrorCodeEnum;
-import com.imadcn.framework.common.exception.BusinessException;
-
 /**
  * FTP上传下载
  * 
@@ -65,7 +62,7 @@ public class FtpClient {
 	 * @return
 	 * @throws FtpException
 	 */
-	private void init(String host, int port, String username, String password) throws BusinessException {
+	private void init(String host, int port, String username, String password) throws RuntimeException {
 		synchronized (LOCK) {
 			if (ftpClient == null) {
 				ftpClient = new FTPClient();
@@ -74,17 +71,17 @@ public class FtpClient {
 				ftpClient.setCharset(Charset.forName("UTF-8"));
 				ftpClient.connect(host, port);// 连接FTP服务器
 			} catch (Exception e) {
-				throw new BusinessException(ErrorCodeEnum.FTP_EXCEPTION);
+				throw new RuntimeException("ftp error");
 			}
 			// 如果采用默认端口，可以使用ftp.connect(url)的方式直接连接FTP服务器
 			if (FTPReply.isPositiveCompletion(ftpClient.getReplyCode())) {
 				try {
 					ftpClient.login(username, password);
 				} catch (Exception e) {
-					throw new BusinessException(ErrorCodeEnum.FTP_EXCEPTION);
+					throw new RuntimeException("ftp error");
 				}
 			} else {
-				throw new BusinessException(ErrorCodeEnum.FTP_EXCEPTION);
+				throw new RuntimeException("ftp error");
 			}
 			logger.info("用户[" + username + "]登陆[" + host + "]成功.");
 			properties.setProperty("userName", username);
@@ -96,7 +93,7 @@ public class FtpClient {
 				ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
 			} catch (Exception e) {
 				logger.error("", e);
-				throw new BusinessException(ErrorCodeEnum.FTP_EXCEPTION);
+				throw new RuntimeException("ftp error");
 			}
 		}
 	}
@@ -111,7 +108,7 @@ public class FtpClient {
 			} catch (IOException e) {
 				logger.error("", e);
 				ftpClient = null;
-				throw new BusinessException(ErrorCodeEnum.FTP_EXCEPTION);
+				throw new RuntimeException("ftp error");
 			}
 			logger.info("用户[" + properties.getProperty("userName") + "]退出登录[" + properties.getProperty("hostName") + "].");
 		}
@@ -175,7 +172,7 @@ public class FtpClient {
 				return true;
 			} catch (IOException e) {
 				logger.error("", e);
-				throw new BusinessException(ErrorCodeEnum.FTP_EXCEPTION);
+				throw new RuntimeException("ftp error");
 			} finally {
 				if (fis != null) {
 					try {
@@ -214,7 +211,7 @@ public class FtpClient {
 				}
 			} catch (IOException e) {
 				logger.error("", e);
-				throw new BusinessException(ErrorCodeEnum.FTP_EXCEPTION);
+				throw new RuntimeException("ftp error");
 			}
 			return false;
 		}
@@ -254,7 +251,7 @@ public class FtpClient {
 				}
 			} catch (IOException e) {
 				logger.error("", e);
-				throw new BusinessException(ErrorCodeEnum.FTP_EXCEPTION);
+				throw new RuntimeException("ftp error");
 			}
 			return false;
 		}
@@ -288,7 +285,7 @@ public class FtpClient {
 					return true;
 				} catch (Exception e) {
 					logger.error("", e);
-					throw new BusinessException(ErrorCodeEnum.FTP_EXCEPTION);
+					throw new RuntimeException("ftp error");
 				} finally {
 					try {
 						if (outputStream != null)
@@ -317,7 +314,7 @@ public class FtpClient {
 				}
 			} catch (Exception e) {
 				logger.error("", e);
-				throw new BusinessException(ErrorCodeEnum.FTP_EXCEPTION);
+				throw new RuntimeException("ftp error");
 			}
 		}
 		return false;
@@ -336,7 +333,7 @@ public class FtpClient {
 			return files[0].getName();
 		} catch (IOException e) {
 			logger.error("", e);
-			throw new BusinessException(ErrorCodeEnum.FTP_EXCEPTION);
+			throw new RuntimeException("ftp error");
 		}
 	}
 

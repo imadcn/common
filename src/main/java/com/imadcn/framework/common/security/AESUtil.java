@@ -8,7 +8,6 @@ import javax.crypto.spec.SecretKeySpec;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.imadcn.framework.common.exception.SystemException;
 import com.imadcn.framework.common.validate.RegexUtil;
 
 /**
@@ -57,11 +56,11 @@ public class AESUtil {
 	 */
 	public static byte[] encrypt(String data, String key) {
 		if (data == null) {
-			throw new SystemException("Data is null");
+			throw new IllegalArgumentException("Data is null");
 		}
 
 		if (RegexUtil.isEmpty(key) || key.length() != 16) {
-			throw new SystemException("Key is null or key's length is not 16");
+			throw new IllegalArgumentException("Key is null or key's length is not 16");
 		}
 
 		try {
@@ -77,7 +76,7 @@ public class AESUtil {
 			return result;
 		} catch (Exception e) {
 			LOG.error(e.getMessage(), e);
-			throw new SystemException("encrypt error", e);
+			throw new RuntimeException("encrypt error", e);
 		}
 	}
 
@@ -90,11 +89,11 @@ public class AESUtil {
 	 */
 	public static byte[] decrypt(byte[] dataBytes, String key) {
 		if (dataBytes == null) {
-			throw new SystemException("Data is null");
+			throw new IllegalArgumentException("Data is null");
 		}
 
 		if (RegexUtil.isEmpty(key) || key.length() != 16) {
-			throw new SystemException("Key is null or key's length is not 16");
+			throw new IllegalArgumentException("Key is null or key's length is not 16");
 		}
 
 		try {
@@ -107,7 +106,7 @@ public class AESUtil {
 			return result;
 		} catch (Exception e) {
 			LOG.error(e.getMessage(), e);
-			throw new SystemException("decrypt error", e);
+			throw new RuntimeException("decrypt error", e);
 		}
 	}
 

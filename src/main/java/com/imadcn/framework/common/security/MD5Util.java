@@ -4,8 +4,6 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import com.imadcn.framework.common.exception.SystemException;
-
 /**
  * md5加密
  */
@@ -33,7 +31,7 @@ public class MD5Util {
 		try {
 			digest = DigestPass.digest(ALG, bytes);
 		} catch (NoSuchAlgorithmException e) {
-			throw new SystemException(e);
+			throw new RuntimeException(e);
 		}
 
 		if (base64) {
@@ -49,9 +47,9 @@ public class MD5Util {
 		try {
 			digest = DigestPass.digest(ALG, str.getBytes(CHARSET));
 		} catch (NoSuchAlgorithmException e) {
-			throw new SystemException(e);
+			throw new RuntimeException(e);
 		} catch (UnsupportedEncodingException e) {
-			throw new SystemException(e);
+			throw new RuntimeException(e);
 		}
 
 		if (base64) {
@@ -67,9 +65,9 @@ public class MD5Util {
 		try {
 			digest = DigestPass.digest(ALG, str.getBytes(CHARSET), key.getBytes(CHARSET));
 		} catch (NoSuchAlgorithmException e) {
-			throw new SystemException(e);
+			throw new RuntimeException(e);
 		} catch (UnsupportedEncodingException e) {
-			throw new SystemException(e);
+			throw new RuntimeException(e);
 		}
 
 		if (base64) {

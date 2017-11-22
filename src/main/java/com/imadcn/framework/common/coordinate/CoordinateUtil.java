@@ -2,8 +2,6 @@ package com.imadcn.framework.common.coordinate;
 
 import java.util.List;
 
-import com.imadcn.framework.common.exception.SystemException;
-
 /**
  * 坐标查询工具
  * 
@@ -45,7 +43,7 @@ public class CoordinateUtil {
 	@SuppressWarnings("unchecked")
 	public static <T extends Coordinate> T getShortestCoordinate(double lng, double lat, List<? extends Coordinate> coordinateList) {
 		if (coordinateList.isEmpty()) {
-			throw new SystemException("There is no coordinate, because the coordinateList is empty");
+			throw new IllegalArgumentException("There is no coordinate, because the coordinateList is empty");
 		}
 
 		T shortestCoordinate = null;

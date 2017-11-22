@@ -6,8 +6,6 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
 
-import com.imadcn.framework.common.exception.SystemException;
-
 public class IPUtil {
 
 	public static String localhost = "127.0.0.1";
@@ -16,18 +14,14 @@ public class IPUtil {
 	 * 获取本机IP(非127.0.0.1)
 	 * 
 	 * @return
+	 * @throws SocketException 
 	 */
-	public static String getLocalIp() {
+	public static String getLocalIp() throws SocketException {
 		String localIp = null;
 		InetAddress inetAddress = null;
 		Enumeration<NetworkInterface> allNetInterfaces = null;
 
-		try {
-			allNetInterfaces = NetworkInterface.getNetworkInterfaces();
-		} catch (SocketException e) {
-			throw new SystemException("GetIp error", e);
-		}
-
+		allNetInterfaces = NetworkInterface.getNetworkInterfaces();
 		while (allNetInterfaces.hasMoreElements()) {
 			NetworkInterface netInterface = (NetworkInterface) allNetInterfaces.nextElement();
 			Enumeration<InetAddress> addresses = netInterface.getInetAddresses();

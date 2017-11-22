@@ -2,8 +2,6 @@ package com.imadcn.framework.common.reflect;
 
 import java.lang.reflect.Field;
 
-import com.imadcn.framework.common.exception.SystemException;
-
 public class ReflectUtil {
 
 	public static Object getClassDeclaredField(Object obj, String filedText) throws Exception {
@@ -17,19 +15,13 @@ public class ReflectUtil {
 		return field.get(obj);
 	}
 
-	public static Object getFieldValue(Object obj, String fieldName) {
+	public static Object getFieldValue(Object obj, String fieldName) throws IllegalArgumentException, IllegalAccessException {
 		Object result = null;
 		Field field = ReflectUtil.getField(obj, fieldName);
 
 		if (field != null) {
 			field.setAccessible(true);
-			try {
-				result = field.get(obj);
-			} catch (IllegalArgumentException e) {
-				throw new SystemException("GetFieldValue error", e);
-			} catch (IllegalAccessException e) {
-				throw new SystemException("GetFieldValue error", e);
-			}
+			result = field.get(obj);
 		}
 
 		return result;
@@ -52,19 +44,15 @@ public class ReflectUtil {
 	 * @param obj 目标对象
 	 * @param fieldName 目标属性
 	 * @param fieldValue 目标值
+	 * @throws IllegalAccessException 
+	 * @throws IllegalArgumentException 
 	 */
-	public static void setFieldValue(Object obj, String fieldName, String fieldValue) {
+	public static void setFieldValue(Object obj, String fieldName, String fieldValue) throws IllegalArgumentException, IllegalAccessException {
 		Field field = getField(obj, fieldName);
 		
 		if (field != null) {
-			try {
-				field.setAccessible(true);
-				field.set(obj, fieldValue);
-			} catch (IllegalArgumentException e) {
-				throw new SystemException("GetFieldValue error", e);
-			} catch (IllegalAccessException e) {
-				throw new SystemException("GetFieldValue error", e);
-			}
+			field.setAccessible(true);
+			field.set(obj, fieldValue);
 		}
 	}
 
