@@ -105,8 +105,8 @@ public class ConsistenHashUtil<T> {
 
 	/**
 	 * 
-	 * @param digest
-	 * @param nTime
+	 * @param digest digest
+	 * @param nTime nTime
 	 * @return
 	 */
 	public long defaultHash(byte[] digest, int nTime) {
@@ -117,7 +117,7 @@ public class ConsistenHashUtil<T> {
 
 	/**
 	 * 
-	 * @param k
+	 * @param k k
 	 * @return
 	 */
 	public byte[] computeMd5(String k) {

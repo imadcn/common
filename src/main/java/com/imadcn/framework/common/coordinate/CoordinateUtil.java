@@ -34,7 +34,6 @@ public class CoordinateUtil {
 
 	/**
 	 * 获取离指定坐标最近的一个坐标
-	 * 
 	 * @param lng 指定坐标经度
 	 * @param lat 指定坐标纬度
 	 * @param coordinateList 目标坐标集

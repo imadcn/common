@@ -37,6 +37,7 @@ public class CaptchaUtil {
 
 	/**
 	 * getCaptchaNum
+	 * @param size size
 	 * @return getCaptchaNum
 	 */
 	public static int getCaptchaNum(int size) {

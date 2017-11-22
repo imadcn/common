@@ -556,8 +556,6 @@ public final class HttpClientHelper {
 	 * @param paramMap
 	 * @param code
 	 * @return
-	 * @throws KeyManagementException
-	 * @throws NoSuchAlgorithmException
 	 * @throws UnsupportedEncodingException
 	 */
 	public static UrlEncodedFormEntity getHttpParamLength(Map<String, String> paramMap, String code) throws UnsupportedEncodingException {
