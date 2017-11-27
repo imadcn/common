@@ -281,6 +281,19 @@ public class RegexUtil {
 		}
 	}
 	
+	/**
+	 * 验证是否为long
+	 * @param value 待判断的字符串
+	 * @return 是返回true，否则返回false
+	 */
+	public static boolean isPositiveLong(Long value) {
+		try { 
+			return value != null && value.longValue() > 0;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
 	public static boolean isDouble(String... values) {
 		if (values != null && values.length > 0) {
 			for (String v : values) {

@@ -422,6 +422,7 @@ public final class HttpClientHelper {
 		String responseBody = "";
 		try {
 			StringEntity myEntity = new StringEntity(xmlStr, "UTF-8");
+			LOGGER.info("sendPostXmlRequest XML \n {}", xmlStr);
 			post.addHeader("Content-Type", "text/xml");
 			post.setEntity(myEntity);
 			HttpResponse response = httpclient.execute(post);
@@ -462,10 +463,10 @@ public final class HttpClientHelper {
 		String responseBody = "";
 		try {
 			StringEntity myEntity = new StringEntity(jsonStr, "UTF-8");
+			LOGGER.info("sendPostJsonRequest JSON \n {}", jsonStr);
 			post.addHeader("Content-Type", "application/json");
 			post.setEntity(myEntity);
 			HttpResponse response = httpclient.execute(post);
-			LOGGER.info("sendPostJsonRequest method execute time is [" + (System.currentTimeMillis() - startTime) + "] ms");
 			responseBody = readInputStream(response.getEntity().getContent());
 			LOGGER.info("\n" + responseBody + "\n");
 			LOGGER.info("sendPostJsonRequest method execute time is [" + (System.currentTimeMillis() - startTime) + "] ms");
