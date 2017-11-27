@@ -413,29 +413,23 @@ public final class HttpClientHelper {
 	 * @throws NoSuchAlgorithmException
 	 */
 	public static String sendPostXmlRequest(String uri, String xmlStr) throws KeyManagementException, NoSuchAlgorithmException {
-		LOGGER.debug("execute sendGetRequest begin");
+		LOGGER.debug("execute sendPostXmlRequest begin");
 		long startTime = System.currentTimeMillis();
 		// 创建客户端
 		CloseableHttpClient httpclient = getHttpClient();
-		LOGGER.info("sendPostRequest url = " + uri);
+		LOGGER.info("sendPostXmlRequest url = " + uri);
 		HttpPost post = getHttpPost(uri);
-		String retStr = "";
+		String responseBody = "";
 		try {
 			StringEntity myEntity = new StringEntity(xmlStr, "UTF-8");
 			post.addHeader("Content-Type", "text/xml");
 			post.setEntity(myEntity);
 			HttpResponse response = httpclient.execute(post);
-			HttpEntity resEntity = response.getEntity();
-			InputStreamReader reader = new InputStreamReader(resEntity.getContent(), "UTF-8");
-			char[] buff = new char[1024];
-			int length = 0;
-			while ((length = reader.read(buff)) != -1) {
-				retStr = new String(buff, 0, length);
-			}
-			LOGGER.info("\n" + retStr + "\n");
-			LOGGER.info("sendGetRequest method execute time is [" + (System.currentTimeMillis() - startTime) + "] ms");
+			responseBody = readInputStream(response.getEntity().getContent());
+			LOGGER.info("\n" + responseBody + "\n");
+			LOGGER.info("sendPostXmlRequest method execute time is [" + (System.currentTimeMillis() - startTime) + "] ms");
 		} catch (Exception e) {
-			LOGGER.error("execute sendGetRequest exception ", e);
+			LOGGER.error("execute sendPostXmlRequest exception ", e);
 		} finally {
 			try {
 				httpclient.close();
@@ -443,8 +437,8 @@ public final class HttpClientHelper {
 				LOGGER.error("execute close httpclient exception ", e);
 			}
 		}
-		LOGGER.debug("execute sendGetRequest end");
-		return retStr;
+		LOGGER.debug("execute sendPostXmlRequest end");
+		return responseBody;
 	}
 
 	/**
@@ -459,29 +453,24 @@ public final class HttpClientHelper {
 	 * @throws NoSuchAlgorithmException
 	 */
 	public static String sendPostJsonRequest(String uri, String jsonStr) throws KeyManagementException, NoSuchAlgorithmException {
-		LOGGER.debug("execute sendGetRequest begin");
+		LOGGER.debug("execute sendPostJsonRequest begin");
 		long startTime = System.currentTimeMillis();
 		// 创建客户端
 		CloseableHttpClient httpclient = getHttpClient();
-		LOGGER.info("sendPostRequest url = " + uri);
+		LOGGER.info("sendPostJsonRequest url = " + uri);
 		HttpPost post = getHttpPost(uri);
-		String retStr = "";
+		String responseBody = "";
 		try {
 			StringEntity myEntity = new StringEntity(jsonStr, "UTF-8");
 			post.addHeader("Content-Type", "application/json");
 			post.setEntity(myEntity);
 			HttpResponse response = httpclient.execute(post);
-			HttpEntity resEntity = response.getEntity();
-			InputStreamReader reader = new InputStreamReader(resEntity.getContent(), "UTF-8");
-			char[] buff = new char[1024];
-			int length = 0;
-			while ((length = reader.read(buff)) != -1) {
-				retStr = new String(buff, 0, length);
-			}
-			LOGGER.info("\n" + retStr + "\n");
-			LOGGER.info("sendGetRequest method execute time is [" + (System.currentTimeMillis() - startTime) + "] ms");
+			LOGGER.info("sendPostJsonRequest method execute time is [" + (System.currentTimeMillis() - startTime) + "] ms");
+			responseBody = readInputStream(response.getEntity().getContent());
+			LOGGER.info("\n" + responseBody + "\n");
+			LOGGER.info("sendPostJsonRequest method execute time is [" + (System.currentTimeMillis() - startTime) + "] ms");
 		} catch (Exception e) {
-			LOGGER.error("execute sendGetRequest exception ", e);
+			LOGGER.error("execute sendPostJsonRequest exception ", e);
 		} finally {
 			try {
 				httpclient.close();
@@ -489,8 +478,8 @@ public final class HttpClientHelper {
 				LOGGER.error("execute close httpclient exception ", e);
 			}
 		}
-		LOGGER.debug("execute sendGetRequest end");
-		return retStr;
+		LOGGER.debug("execute sendPostJsonRequest end");
+		return responseBody;
 	}
 
 	/**
