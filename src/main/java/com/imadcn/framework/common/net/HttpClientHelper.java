@@ -404,10 +404,8 @@ public final class HttpClientHelper {
 	/**
 	 * 发送xml字符串请求
 	 * 
-	 * @param uri
-	 *            请求地址
-	 * @param xmlStr
-	 *            xml字符串
+	 * @param uri 请求地址
+	 * @param xmlStr xml字符串
 	 * @return
 	 * @throws KeyManagementException
 	 * @throws NoSuchAlgorithmException
@@ -441,7 +439,47 @@ public final class HttpClientHelper {
 		LOGGER.debug("execute sendPostXmlRequest end");
 		return responseBody;
 	}
-
+	
+	/**
+	 * 发送xml字符串请求
+	 * 
+	 * @param uri 请求地址
+	 * @param xmlStr xml字符串
+	 * @return
+	 * @throws KeyManagementException
+	 * @throws NoSuchAlgorithmException
+	 */
+	public static String sendPostXmlRequest(String uri, String xmlStr, Map<String, String> headerMap) throws KeyManagementException, NoSuchAlgorithmException {
+		LOGGER.debug("execute sendPostXmlRequest begin");
+		long startTime = System.currentTimeMillis();
+		// 创建客户端
+		CloseableHttpClient httpclient = getHttpClient();
+		LOGGER.info("sendPostXmlRequest url = " + uri);
+		HttpPost post = getHttpPost(uri);
+		setHeader(post, headerMap);
+		String responseBody = "";
+		try {
+			StringEntity myEntity = new StringEntity(xmlStr, "UTF-8");
+			LOGGER.info("sendPostXmlRequest XML \n {}", xmlStr);
+			post.addHeader("Content-Type", "text/xml");
+			post.setEntity(myEntity);
+			HttpResponse response = httpclient.execute(post);
+			responseBody = readInputStream(response.getEntity().getContent());
+			LOGGER.info("\n" + responseBody + "\n");
+			LOGGER.info("sendPostXmlRequest method execute time is [" + (System.currentTimeMillis() - startTime) + "] ms");
+		} catch (Exception e) {
+			LOGGER.error("execute sendPostXmlRequest exception ", e);
+		} finally {
+			try {
+				httpclient.close();
+			} catch (IOException e) {
+				LOGGER.error("execute close httpclient exception ", e);
+			}
+		}
+		LOGGER.debug("execute sendPostXmlRequest end");
+		return responseBody;
+	}
+	
 	/**
 	 * 发送Json字符串请求
 	 * 
@@ -460,6 +498,46 @@ public final class HttpClientHelper {
 		CloseableHttpClient httpclient = getHttpClient();
 		LOGGER.info("sendPostJsonRequest url = " + uri);
 		HttpPost post = getHttpPost(uri);
+		String responseBody = "";
+		try {
+			StringEntity myEntity = new StringEntity(jsonStr, "UTF-8");
+			LOGGER.info("sendPostJsonRequest JSON \n {}", jsonStr);
+			post.addHeader("Content-Type", "application/json");
+			post.setEntity(myEntity);
+			HttpResponse response = httpclient.execute(post);
+			responseBody = readInputStream(response.getEntity().getContent());
+			LOGGER.info("\n" + responseBody + "\n");
+			LOGGER.info("sendPostJsonRequest method execute time is [" + (System.currentTimeMillis() - startTime) + "] ms");
+		} catch (Exception e) {
+			LOGGER.error("execute sendPostJsonRequest exception ", e);
+		} finally {
+			try {
+				httpclient.close();
+			} catch (IOException e) {
+				LOGGER.error("execute close httpclient exception ", e);
+			}
+		}
+		LOGGER.debug("execute sendPostJsonRequest end");
+		return responseBody;
+	}
+
+	/**
+	 * 发送Json字符串请求
+	 * @param uri
+	 * @param jsonStr
+	 * @param headerMap
+	 * @return
+	 * @throws KeyManagementException
+	 * @throws NoSuchAlgorithmException
+	 */
+	public static String sendPostJsonRequest(String uri, String jsonStr, Map<String, String> headerMap) throws KeyManagementException, NoSuchAlgorithmException {
+		LOGGER.debug("execute sendPostJsonRequest begin");
+		long startTime = System.currentTimeMillis();
+		// 创建客户端
+		CloseableHttpClient httpclient = getHttpClient();
+		LOGGER.info("sendPostJsonRequest url = " + uri);
+		HttpPost post = getHttpPost(uri);
+		setHeader(post, headerMap);
 		String responseBody = "";
 		try {
 			StringEntity myEntity = new StringEntity(jsonStr, "UTF-8");
