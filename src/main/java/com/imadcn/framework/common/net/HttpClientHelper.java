@@ -445,6 +445,7 @@ public final class HttpClientHelper {
 	 * 
 	 * @param uri 请求地址
 	 * @param xmlStr xml字符串
+	 * @param headerMap
 	 * @return
 	 * @throws KeyManagementException
 	 * @throws NoSuchAlgorithmException

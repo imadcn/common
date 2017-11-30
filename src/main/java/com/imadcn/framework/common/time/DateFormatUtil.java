@@ -303,7 +303,7 @@ public class DateFormatUtil {
 	 * @return
 	 */
 	public static Date today() {
-		Date today = parse(new Date(), DateFormatUtil.DATE);
+		Date today = parse(new Date(), DATE);
 		return today;
 	}
 
@@ -315,8 +315,8 @@ public class DateFormatUtil {
 	 * @return
 	 */
 	public static Date getMonth(Date day) {
-		String yyyyMM = format(day, DateFormatUtil.YEAR_MONTH);
-		Date month = parse(yyyyMM, DateFormatUtil.YEAR_MONTH);
+		String yyyyMM = format(day, YEAR_MONTH);
+		Date month = parse(yyyyMM, YEAR_MONTH);
 		return month;
 	}
 
@@ -332,8 +332,7 @@ public class DateFormatUtil {
 	/**
 	 * 获取本月第一天
 	 * 
-	 * @param day
-	 *            YYYY-MM-DD
+	 * @param day YYYY-MM-DD
 	 * @return
 	 */
 	public static Date getFirstDayOfMonth(Date day) {
@@ -412,7 +411,7 @@ public class DateFormatUtil {
 	public static int getAge(Date birthday) {
 		Calendar cal = Calendar.getInstance();
 		if (cal.before(birthday)) {
-			throw new IllegalArgumentException("The birthDay is before Now.It's unbelievable!");
+			throw new IllegalArgumentException("birthday in the future? It's unbelievable!");
 		}
 		int yearNow = cal.get(Calendar.YEAR);
 		int monthNow = cal.get(Calendar.MONTH);
@@ -451,7 +450,7 @@ public class DateFormatUtil {
 	public static boolean isDate(String dptDate, String pattern) {
 		if (dptDate == null || dptDate.isEmpty())
 			return false;
-		String formatDate = DateFormatUtil.format(dptDate, pattern, pattern);
+		String formatDate = format(dptDate, pattern, pattern);
 		// 时间校验，如果"标准化"转换后，与原数据一致，则相同，像20130229这种不正确的日期将转换为20130301，则时间错误
 		if (formatDate != null && formatDate.equals(dptDate)) {
 			return true;
@@ -465,7 +464,7 @@ public class DateFormatUtil {
 	 * @return 通过返回true，失败返回false
 	 */
 	public static boolean isDate(String dptDate) {
-		return isDate(dptDate, DateFormatUtil.DATE);
+		return isDate(dptDate, DATE);
 	}
 	
 	/**
@@ -479,8 +478,8 @@ public class DateFormatUtil {
 		if (go == null || back == null || go.isEmpty() || back.isEmpty())
 			return false;
 		// 提起往前挪一天，不然相同日期没有办法做判断
-		Date goDate = DateFormatUtil.addDay(DateFormatUtil.parse(go, pattern), -1); 
-		Date backDate = DateFormatUtil.parse(back, pattern);
+		Date goDate = addDay(parse(go, pattern), -1); 
+		Date backDate = parse(back, pattern);
 		if (goDate != null && backDate != null) {
 			return goDate.before(backDate);
 		}
@@ -494,7 +493,7 @@ public class DateFormatUtil {
 	 * @return go&lt;=back返回true，否则返回false
 	 */
 	public static boolean isBefore(String go, String back) {
-		return isBefore(go, back, DateFormatUtil.DATE);
+		return isBefore(go, back, DATE);
 	}
 	
 	/**
@@ -503,7 +502,7 @@ public class DateFormatUtil {
 	 * @return 成功返回true，失败返回false
 	 */
 	public static boolean isDatetime(String datetime) {
-		return isDate(datetime, DateFormatUtil.DATE_TIME);
+		return isDate(datetime, DATE_TIME);
 	}
 	
 	/**
@@ -526,7 +525,7 @@ public class DateFormatUtil {
 	 * @return 是返回true，否则返回false
 	 */
 	public static boolean isNotLessThanToday(String date) {
-		return isNotLessThanToday(date, DateFormatUtil.DATE);
+		return isNotLessThanToday(date, DATE);
 	}
 	
 	/**
@@ -537,9 +536,8 @@ public class DateFormatUtil {
 	public static boolean isNotLessThanToday(String date, String datePattern) {
 		if (date == null || date.isEmpty())
 			return false;
-		Date cmpDate = DateFormatUtil.addDay(new Date(), -1); // 以昨天为基准
-		Date srcDate = DateFormatUtil.parse(date, datePattern);
+		Date cmpDate = addDay(new Date(), -1); // 以昨天为基准
+		Date srcDate = parse(date, datePattern);
 		return srcDate.after(cmpDate);
 	}
-
 }

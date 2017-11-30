@@ -37,18 +37,12 @@ public class RegexUtil {
 	 */
 	public static boolean isCellphone(String cellphone) {
 		/*
-		 * 移动号段：134~139，147，150~152，157~159，181~183， 187~188，178
-		 * 联通号段：130~132，155~156，185~186，176
-		 * 电信号段：133，153，180，181，189，177，173
-		 * 虚拟运营：170，171
-		 * 13[0,1,2,3,4,5,6,7,8,9]
-		 * 147
-		 * 15[0,1,2,3,5,6,7,8,9]
-		 * 18[0,1,2,3,5,6,7,8,9]
+		 * 更新手机号校验正则
+		 * 1(3,4,5,7,8,9) 开头，11位
 		 */
 		if (cellphone == null || "".equals(cellphone))
 			return false;
-		String regex = "^1([34578][0-9])[0-9]{8}$";
+		String regex = "^1([345789)[0-9]{9}$";
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(cellphone);
 		return matcher.matches();
