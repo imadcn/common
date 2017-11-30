@@ -42,7 +42,7 @@ public class RegexUtil {
 		 */
 		if (cellphone == null || "".equals(cellphone))
 			return false;
-		String regex = "^1([345789)[0-9]{9}$";
+		String regex = "^1([345789])[0-9]{9}$";
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(cellphone);
 		return matcher.matches();
@@ -554,8 +554,7 @@ public class RegexUtil {
 	}
 	
 	public static void main(String[] args) {
-		String[] objects = {"1", "2", "3"};
-		String value = "4";
-		System.out.println(isIn(value, objects));
+		String mobile = "138012310001";
+		System.out.println(isCellphone(mobile));
 	}
 }
