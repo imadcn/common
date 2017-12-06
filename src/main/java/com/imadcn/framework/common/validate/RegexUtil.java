@@ -38,11 +38,11 @@ public class RegexUtil {
 	public static boolean isCellphone(String cellphone) {
 		/*
 		 * 更新手机号校验正则
-		 * 1(3,4,5,7,8,9) 开头，11位
+		 * 1(3,4,5,6,7,8,9) 开头，11位
 		 */
 		if (cellphone == null || "".equals(cellphone))
 			return false;
-		String regex = "^1([345789])[0-9]{9}$";
+		String regex = "^1([3456789])[0-9]{9}$";
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(cellphone);
 		return matcher.matches();
