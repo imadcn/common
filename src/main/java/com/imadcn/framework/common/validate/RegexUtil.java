@@ -553,8 +553,84 @@ public class RegexUtil {
 		return sb.toString();
 	}
 	
+	/**
+	 * 判断是否是英文名
+	 * @param value
+	 * @return
+	 */
+	public static boolean isEnglishName(String value) {
+		if (value == null || value.isEmpty()) {
+			return false;
+		}
+		String regex = "^([A-Za-z.·]+( )?)+$";
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(value);
+		return matcher.matches();
+	}
+	
+	/**
+	 * 长度是否介于 min和max之间，有效范围[min, max]
+	 * @param value 待判断的数据
+	 * @param min 最小长度(含)
+	 * @param max 最大长度(含)
+	 * @return
+	 */
+	public static boolean isLengthMatch(String value, int min, int max) {
+		if (min < 0 || max < 0) {
+			throw new IllegalArgumentException("min/max length can't less than zero");
+		}
+		if (max < min) {
+			throw new IllegalArgumentException("max length can't less than min");
+		}
+		if (value != null) {
+			int valueLength = value.length();
+			if (valueLength >= min && valueLength <= max) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * 是否满足最小长度 ，有效范围[min, +oo)
+	 * @param value 待判断的数据
+	 * @param min 最小长度(含)
+	 * @return
+	 */
+	public static boolean isLessThanMin(String value, int min) {
+		if (min < 0) {
+			throw new IllegalArgumentException("min length can't less than zero");
+		}
+		if (value != null) {
+			int valueLength = value.length();
+			if (valueLength < min) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * 是否满足最大长度 ，有效范围[0, max]
+	 * @param value 待判断的数据
+	 * @param max 最大长度(含)
+	 * @return
+	 */
+	public static boolean isGreaterThanMax(String value, int max) {
+		if (max < 0) {
+			throw new IllegalArgumentException("max length can't less than zero");
+		}
+		if (value != null) {
+			int valueLength = value.length();
+			if (valueLength > max) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public static void main(String[] args) {
-		String mobile = "138012310001";
-		System.out.println(isCellphone(mobile));
+		String value = "13800138000";
+		System.out.println(isLengthMatch(value, 0, 12));
 	}
 }
