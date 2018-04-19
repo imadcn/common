@@ -4,17 +4,20 @@ import java.util.UUID;
 
 /**
  * UIDUtil
+ * 
  * @author yangchao
  * @since 2015-07-20
  */
 public class UIDUtil {
 
-	private static String[] chars = new String[] { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "_", "-" };
+	private static String[] chars = new String[] { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E",
+			"F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "_", "-" };
 
 	/**
 	 * 获得指定数目标UUID
 	 * 
-	 * @param number int 必需获得的UUID数量
+	 * @param number
+	 *            int 必需获得的UUID数量
 	 * @return String[] UUID数组
 	 */
 	public static String[] uuid(int number) {
@@ -38,13 +41,21 @@ public class UIDUtil {
 	}
 
 	/**
-	 * 8个字节的短UID
+	 * 8位长度的短ID
+	 * 
 	 * @return
 	 */
 	public static String uuid8() {
 		return shortUid(8);
 	}
-	
+
+	/**
+	 * 短ID
+	 * 
+	 * @param size
+	 *            生成长度，最多8位
+	 * @return
+	 */
 	private static String shortUid(int size) {
 		StringBuffer shortBuffer = new StringBuffer();
 		String uuid = UUID.randomUUID().toString().replace("-", "");
@@ -58,6 +69,7 @@ public class UIDUtil {
 
 	/**
 	 * 标准UUID
+	 * 
 	 * @return
 	 */
 	public static String uuid() {
@@ -66,20 +78,31 @@ public class UIDUtil {
 
 	/**
 	 * 不带"-"符号的UUID
+	 * 
 	 * @return
 	 */
 	public static String noneDashUuid() {
 		return UUID.randomUUID().toString().replace("-", "");
 	}
-	
+
 	/**
-	 * 64位[0-9a-zA-Z][_-]UUID
+	 * 64进制[0-9a-zA-Z][_-]UUID
 	 * 
 	 * @return
 	 */
+	@Deprecated
 	public static String uuid64Bit() {
+		return uuid22();
+	}
+
+	/**
+	 * 22位长度的 UUID
+	 * 
+	 * @return
+	 */
+	public static String uuid22() {
 		StringBuffer r = new StringBuffer();
-		String uuid = UUID.randomUUID().toString().replace("-", "");
+		String uuid = new StringBuilder().append("0").append(noneDashUuid()).toString();
 		int index = 0;
 		int[] buff = new int[3];
 		int l = uuid.length();
