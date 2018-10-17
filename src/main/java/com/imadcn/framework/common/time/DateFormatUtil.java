@@ -435,9 +435,24 @@ public class DateFormatUtil {
 		return age;
 	}
 	
-	public static String format(long millisecond, String destPattern) {
+	/**
+	 * 格式化展示时间，默认格式 {@link #FULL_TIME}
+	 * @param millSeconds 时间ms
+	 * @return 格式化后的字符串
+	 */
+	public static String format(long millSeconds) {
+		return format(millSeconds, FULL_TIME);
+	}
+	
+	/**
+	 * 格式化展示时间
+	 * @param millSeconds 时间ms
+	 * @param destPattern 格式化通配符
+	 * @return 格式化后的字符串
+	 */
+	public static String format(long millSeconds, String destPattern) {
 		SimpleDateFormat sdf = new SimpleDateFormat(destPattern);
-		Date date = new Date(millisecond);
+		Date date = new Date(millSeconds);
 		return sdf.format(date);
 	}
 	
