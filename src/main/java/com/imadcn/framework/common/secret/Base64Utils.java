@@ -46,7 +46,6 @@ public class Base64Utils {
      * 进行base64加码
      * @param data
      * @return
-     * @throws UnsupportedEncodingException
      */
     public static String base64Encodes(byte[] data) {
         byte[] dst = base64Encode(data);
