@@ -1,5 +1,6 @@
 package com.imadcn.framework.common.time;
 
+import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -555,4 +556,34 @@ public class DateFormatUtil {
 		Date srcDate = parse(date, datePattern);
 		return srcDate.after(cmpDate);
 	}
+
+	/**
+	 * 判断当前时刻是否在一段时间区间内
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public static boolean isBetween(Time start, Time end) {
+		return isBetween(start, end, new Time(System.currentTimeMillis()));
+	}
+
+	/**
+	 * 判断当前时刻是否在一段时间区间内
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public static boolean isBetween(Time start, Time end, Time now) {
+		String nowStr = DateFormatUtil.format(now, SHORT_TIME).replaceAll("^(0+)", "");
+		String startStr = DateFormatUtil.format(start, SHORT_TIME).replaceAll("^(0+)", "");
+		String endStr = DateFormatUtil.format(end, SHORT_TIME).replaceAll("^(0+)", "");
+		int startVal = Integer.parseInt(startStr);
+		int endVal = Integer.parseInt(endStr);
+		int nowVal = Integer.parseInt(nowStr);
+		if (endVal < startVal) {
+			endVal += 240000;
+		}
+		return (nowVal >= startVal && nowVal <= endVal) || (nowVal + 240000 >= startVal && nowVal + 240000 <= endVal);
+	}
+
 }
