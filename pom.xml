@@ -52,7 +52,7 @@
 		<dep.jsp-api.version>2.1</dep.jsp-api.version>
 		<!-- commons -->
 		<dep.commons-codec.version>1.9</dep.commons-codec.version>
-		<dep.commons-fileupload.version>1.3.2</dep.commons-fileupload.version>
+		<dep.commons-fileupload.version>[1.3.3,)</dep.commons-fileupload.version>
 		<dep.commons-io.version>2.5</dep.commons-io.version>
 		<dep.commons-lang.version>2.6</dep.commons-lang.version>
 		<dep.commons-validator.version>1.5.1</dep.commons-validator.version>
